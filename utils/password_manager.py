@@ -75,12 +75,10 @@ class PassMng:
             cursor.execute('CREATE TABLE IF NOT EXISTS passwords(name text primary key, pass text)')
 
     @staticmethod
-    def show_accounts():
+    def get_accounts():
         with DatabaseConnection('Passwords.db') as connection:
             cursor = connection.cursor()
 
-            cursor.execute('SELECT name FROM passwords WHERE name<>?', ('master',))
+            cursor.execute('SELECT name, oid FROM passwords WHERE name<>?', ('master',))
             accounts = cursor.fetchall()
-
-        for account in accounts:
-            print(account[0].ljust(20, " "))
+        return accounts
